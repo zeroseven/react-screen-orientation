@@ -9,10 +9,16 @@ Installation
 Usage
 -----
 
+Webpack with `sass-loader` and `babel-loader` required before proper build script exists.
+
+```scss
+@import "~react-screen-orientation/src/index";
+```
+
 ```javascript
 import React, {Component} from 'react'
 
-import DeviceOrientation, { Orientation } from 'react-screen-orientation'
+import DeviceOrientation, { Orientation } from 'babel?presets[]=react,presets[]=es2015!react-screen-orientation/src/index'
 
 class Example extends Component {
 
