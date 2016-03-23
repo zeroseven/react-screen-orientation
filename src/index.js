@@ -73,11 +73,18 @@ const LOCK_ORIENTATIONS = [
   'default'
 ]
 
+const isOrientation = (props, propName, componentName, location, propFullName) => {
+  const propValue = props[propName]
+  if (propValue.type !== Orientation) {
+    return new Error(`Invalid ${location} '${propFullName}' supplied to '${componentName}', expected 'Orientation' component.`)
+  }
+}
+
 DeviceOrientation.propTypes = {
-  // children: PropTypes.arrayOf(
-  //   PropTypes.instanceOf(Orientation)
-  // ).isRequired,
-  children: PropTypes.array,
+  children: PropTypes.oneOfType([
+    isOrientation,
+    PropTypes.arrayOf(isOrientation)
+  ]).isRequired,
   className: PropTypes.string,
   lockOrientation: PropTypes.oneOfType([
     PropTypes.oneOf(LOCK_ORIENTATIONS),
