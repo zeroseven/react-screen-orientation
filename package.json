@@ -1,0 +1,22 @@
+{
+  "name": "react-screen-orientation",
+  "version": "0.0.1",
+  "description": "Display Components based on screen orientation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zeroseven/react-screen-orientation.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "Timo Uhlmann <t.uhlmann@zeroseven.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zeroseven/react-screen-orientation/issues"
+  },
+  "homepage": "https://github.com/zeroseven/react-screen-orientation#readme"
+}
