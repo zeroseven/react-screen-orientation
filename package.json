@@ -4,7 +4,7 @@
   "description": "Display Components based on screen orientation",
   "main": "./lib/index.js",
   "scripts": {
-    "compile": "babel --presets es2015,react --optional runtime -d lib/ src/",
+    "compile": "babel --presets es2015,react -d lib/ src/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
