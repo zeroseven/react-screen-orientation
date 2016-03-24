@@ -12,10 +12,10 @@ export class Orientation extends Component {
 }
 
 Orientation.propTypes = {
+  alwaysRender: PropTypes.bool,
   children: PropTypes.node,
   className: PropTypes.string,
-  orientation: PropTypes.oneOf(['portrait', 'landscape']),
-  alwaysRender: PropTypes.bool
+  orientation: PropTypes.oneOf(['portrait', 'landscape']).isRequired
 }
 
 Orientation.defaultProps = {
