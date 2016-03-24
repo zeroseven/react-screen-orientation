@@ -9,8 +9,6 @@ Installation
 Usage
 -----
 
-Webpack with `sass-loader` and `babel-loader` required before proper build script exists.
-
 ```scss
 @import "~react-screen-orientation/src/index";
 ```
