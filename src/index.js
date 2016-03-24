@@ -25,17 +25,26 @@ Orientation.defaultProps = {
 
 const noop = () => false
 
-const lock = window.screen.lockOrientation ||
+window.screen.lockOrientationUniversal = window.screen.lockOrientation ||
   window.screen.mozLockOrientation ||
-  window.screen.msLockOrientation ||
-  ((orientation) => {
-    const { screen } = window
-    if (screen.orientation && typeof screen.orientation.lock === 'function') {
-      return window.screen.orientation.lock(orientation)
-    } else {
-      return new Promise((resolve, reject) => reject())
-    }
-  })
+  window.screen.msLockOrientation
+
+const lock = (orientation) => {
+  const { screen } = window
+  if (screen.orientation && typeof screen.orientation.lock === 'function') {
+    return window.screen.orientation.lock(orientation)
+  } else if (screen.lockOrientationUniversal) {
+    return new Promise((resolve, reject) => {
+      if (screen.lockOrientationUniversal(orientation)) {
+        resolve()
+      } else {
+        reject()
+      }
+    })
+  } else {
+    return new Promise((resolve, reject) => reject())
+  }
+}
 
 export default class DeviceOrientation extends Component {
 
