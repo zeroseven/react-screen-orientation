@@ -105,9 +105,19 @@ export default class DeviceOrientation extends Component {
 
   render () {
     const { children, className } = this.props
+    const { orientation } = this.state
     return (
       <div className={`${className}`}>
-        {children}
+        {
+          Children.map(children, (child) => {
+            const { props } = child
+            if (props.alwaysRender || props.orientation === orientation) {
+              return child
+            // } else {
+            //   console.log('Skipping child', child)
+            }
+          })
+        }
       </div>
     )
   }
