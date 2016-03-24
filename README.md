@@ -18,7 +18,7 @@ Webpack with `sass-loader` and `babel-loader` required before proper build scrip
 ```javascript
 import React, {Component} from 'react'
 
-import DeviceOrientation, { Orientation } from 'babel?presets[]=react,presets[]=es2015!react-screen-orientation/src/index'
+import DeviceOrientation, { Orientation } from 'react-screen-orientation'
 
 class Example extends Component {
 
