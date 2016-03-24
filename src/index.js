@@ -1,10 +1,10 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Children, Component, PropTypes } from 'react'
 
 export class Orientation extends Component {
   render () {
-    const { type, children, className } = this.props
+    const { orientation, children, className } = this.props
     return (
-      <div className={`${className} react-orientation react-orientation--${type}`}>
+      <div className={`${className} react-orientation react-orientation--${orientation}`}>
         {children}
       </div>
     )
@@ -12,39 +12,99 @@ export class Orientation extends Component {
 }
 
 Orientation.propTypes = {
+  alwaysRender: PropTypes.bool,
   children: PropTypes.node,
   className: PropTypes.string,
-  type: PropTypes.oneOf(['portrait', 'landscape'])
+  orientation: PropTypes.oneOf(['portrait', 'landscape']).isRequired
 }
 
 Orientation.defaultProps = {
-  className: ''
+  className: '',
+  alwaysRender: true
 }
 
-const lock = window.screen.lockOrientation ||
+const noop = () => false
+
+window.screen.lockOrientationUniversal = window.screen.lockOrientation ||
   window.screen.mozLockOrientation ||
-  window.screen.msLockOrientation ||
-  ((orientation) => {
-    const { screen } = window
-    if (screen.orientation && typeof screen.orientation.lock === 'function') {
-      return window.screen.orientation.lock(orientation)
-    } else {
-      return new Promise((resolve, reject) => reject())
-    }
-  })
+  window.screen.msLockOrientation
+
+const lock = (orientation) => {
+  const { screen } = window
+  if (screen.orientation && typeof screen.orientation.lock === 'function') {
+    return window.screen.orientation.lock(orientation)
+  } else if (screen.lockOrientationUniversal) {
+    return new Promise((resolve, reject) => {
+      if (screen.lockOrientationUniversal(orientation)) {
+        resolve()
+      } else {
+        reject()
+      }
+    })
+  } else {
+    return new Promise((resolve, reject) => reject())
+  }
+}
 
 export default class DeviceOrientation extends Component {
 
   constructor (props) {
     super(props)
     this.lockOrientation(props)
+    this.onOrientationChange = this.onOrientationChange.bind(this)
+
+    this.state = {
+      orienation: null,
+      type: null,
+      angle: null
+    }
+  }
+
+  componentWillMount () {
+    this.onOrientationChange(null)
+  }
+
+  componentDidMount () {
+    console.log('DeviceOrientation', 'componentDidMount')
+    if ('onchange' in window.screen.orientation) {
+      console.log('Using screen.orientation.onchange')
+      window.screen.orientation.addEventListener('change', this.onOrientationChange)
+    } else if ('onorientationchange' in window) {
+      console.log('Using window.onorientationchange')
+      window.addEventListener('orientationchange', this.onOrientationChange)
+    } else {
+      console.warn('No orientationchange events')
+    }
+  }
+
+  componentWillUnmount () {
+    console.log('DeviceOrientation', 'componentWillUnmount')
+    if ('onchange' in window.screen.orientation) {
+      console.log('Removing screen.orientation.onchange')
+      window.screen.orientation.removeEventListener('change', this.onOrientationChange)
+    } else if ('onorientationchange' in window) {
+      console.log('Removing window.onorientationchange')
+      window.removeEventListener('orientationchange', this.onOrientationChange)
+    }
+  }
+
+  onOrientationChange (event) {
+    const onOrientationChange = this.props.onOrientationChange || noop
+    const [orientation, type] = window.screen.orientation.type.split('-')
+    const { angle } = window.screen.orientation
+    this.setState({
+      orientation,
+      type,
+      angle
+    })
+    onOrientationChange(orientation, type, angle)
   }
 
   lockOrientation ({lockOrientation}) {
     if (typeof lockOrientation !== 'string') {
       return
     }
-    let onLockOrientation = this.props.onLockOrientation || (() => false)
+    const onLockOrientation = this.props.onLockOrientation || noop
     return lock(lockOrientation).then(function () {
       onLockOrientation(true)
     }).catch(function () {
@@ -54,9 +114,19 @@ export default class DeviceOrientation extends Component {
 
   render () {
     const { children, className } = this.props
+    const { orientation } = this.state
     return (
       <div className={`${className}`}>
-        {children}
+        {
+          Children.map(children, (child) => {
+            const { props } = child
+            if (props.alwaysRender || props.orientation === orientation) {
+              return child
+            // } else {
+            //   console.log('Skipping child', child)
+            }
+          })
+        }
       </div>
     )
   }
@@ -90,7 +160,8 @@ DeviceOrientation.propTypes = {
     PropTypes.oneOf(LOCK_ORIENTATIONS),
     PropTypes.arrayOf(PropTypes.oneOf(LOCK_ORIENTATIONS))
   ]),
-  onLockOrientation: PropTypes.func
+  onLockOrientation: PropTypes.func,
+  onOrientationChange: PropTypes.func
 }
 
 DeviceOrientation.defaultProps = {

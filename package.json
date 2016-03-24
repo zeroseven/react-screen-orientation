@@ -1,6 +1,6 @@
 {
   "name": "react-screen-orientation",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Display Components based on screen orientation",
   "main": "./lib/index.js",
   "scripts": {
@@ -31,6 +31,7 @@
     "babel-loader": "^6.0.0",
     "babel-polyfill": "^6.3.14",
     "babel-preset-es2015": "^6.0.15",
-    "babel-preset-react": "^6.0.15"
+    "babel-preset-react": "^6.0.15",
+    "standard": "^6.0.8"
   }
 }
