@@ -4,7 +4,7 @@ react-screen-orientation
 Installation
 ------------
 
-`npm insall react-screen-orientation --save`
+`npm install react-screen-orientation --save`
 
 Usage
 -----
