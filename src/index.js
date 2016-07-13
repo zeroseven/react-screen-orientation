@@ -66,7 +66,7 @@ export default class DeviceOrientation extends Component {
 
   componentDidMount () {
     console.log('DeviceOrientation', 'componentDidMount')
-    if ('onchange' in window.screen.orientation) {
+    if ((window.screen.orientation) && ('onchange' in window.screen.orientation)) {
       console.log('Using screen.orientation.onchange')
       window.screen.orientation.addEventListener('change', this.onOrientationChange)
     } else if ('onorientationchange' in window) {
@@ -79,7 +79,7 @@ export default class DeviceOrientation extends Component {
 
   componentWillUnmount () {
     console.log('DeviceOrientation', 'componentWillUnmount')
-    if ('onchange' in window.screen.orientation) {
+    if ((window.screen.orientation) && ('onchange' in window.screen.orientation)) {
       console.log('Removing screen.orientation.onchange')
       window.screen.orientation.removeEventListener('change', this.onOrientationChange)
     } else if ('onorientationchange' in window) {
@@ -89,9 +89,18 @@ export default class DeviceOrientation extends Component {
   }
 
   onOrientationChange (event) {
-    const onOrientationChange = this.props.onOrientationChange || noop
-    const [orientation, type] = window.screen.orientation.type.split('-')
-    const { angle } = window.screen.orientation
+    const onOrientationChange = this.props.onOrientationChange || noop;
+    var orientation = 'portrait';
+    var type = 'primary';
+    var angle = 0;
+    if (window.orientation){
+      angle = window.orientation;
+    }
+
+    if (window.screen.orientation){
+      [orientation, type] = window.screen.orientation.type.split('-');
+      { angle } = window.screen.orientation;
+    }
     this.setState({
       orientation,
       type,
