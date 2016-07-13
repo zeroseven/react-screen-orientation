@@ -99,7 +99,7 @@ export default class DeviceOrientation extends Component {
 
     if (window.screen.orientation){
       [orientation, type] = window.screen.orientation.type.split('-');
-      { angle } = window.screen.orientation;
+      angle = window.screen.orientation;
     }
     this.setState({
       orientation,
