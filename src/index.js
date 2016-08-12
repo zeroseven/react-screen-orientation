@@ -95,6 +95,7 @@ export default class DeviceOrientation extends Component {
     var angle = 0;
     if (window.orientation){
       angle = window.orientation;
+      orientation = Math.abs(angle) === 90 ? 'landscape' : 'portrait';
     }
 
     if (window.screen.orientation){
