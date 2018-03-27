@@ -54,7 +54,7 @@ export default class DeviceOrientation extends Component {
     this.onOrientationChange = this.onOrientationChange.bind(this)
 
     this.state = {
-      orienation: null,
+      orientation: null,
       type: null,
       angle: null
     }
