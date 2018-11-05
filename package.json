@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/zeroseven/react-screen-orientation#readme",
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0-rc.1",
-    "webpack": "^1.12.2"
+    "prop-types": "^15.6.1",
+    "react": "^16.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.6.5",
