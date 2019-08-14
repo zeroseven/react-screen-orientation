@@ -9,6 +9,8 @@ Installation
 Usage
 -----
 
+Also see [the example](example).
+
 ```scss
 @import "~react-screen-orientation/src/index";
 ```
