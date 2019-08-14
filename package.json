@@ -1,6 +1,6 @@
 {
   "name": "react-screen-orientation",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Display Components based on screen orientation",
   "main": "./lib/index.js",
   "scripts": {
