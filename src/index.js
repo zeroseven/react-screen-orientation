@@ -61,7 +61,7 @@ export default class DeviceOrientation extends Component {
     }
   }
 
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     this.onOrientationChange(null)
   }
 
